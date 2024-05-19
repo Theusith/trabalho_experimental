@@ -60,6 +60,11 @@ public class GerenciadorContas {
         return clientes;
     }
 
+    public void removerCliente(int id) {
+        clientes.removeIf(cliente -> cliente.getId() == id);
+        System.out.println("Cliente removido com sucesso!");
+    }
+
     public int gerarProximoId() {
         return proximoId++;
     }

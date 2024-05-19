@@ -3,6 +3,7 @@ package Model;
 import java.util.Scanner;
 
 public class SistemaReservas {
+
     private GerenciadorContas gerenciadorContas;
     private GerenciadorReservas gerenciadorReservas;
     private Scanner scanner;
@@ -137,12 +138,14 @@ public class SistemaReservas {
     }
 
     private void exibirMenuAdministrador(Administrador administrador) {
+
         boolean sair = false;
         while (!sair) {
             System.out.println("\n=== Menu Administrador ===");
             System.out.println("1. Alterar dados pessoais de um cliente por ID");
             System.out.println("2. Exibir reservas de um cliente");
-            System.out.println("3. Logout");
+            System.out.println("3. Excluir conta de um cliente");
+            System.out.println("4. Logout");
             System.out.print("Escolha uma opção: ");
 
             int opcao = scanner.nextInt();
@@ -154,9 +157,14 @@ public class SistemaReservas {
                     alterarDadosClientePorId();
                     break;
                 case 2:
-                    mostrarReservas();
+                    gerenciadorReservas.mostrarReservas();
                     break;
                 case 3:
+                    System.out.println("Digite o ID:");
+                    int id = scanner.nextInt();
+                    gerenciadorContas.removerCliente(id);
+                    break;
+                case 4:
                     sair = true;
                     break;
                 default:
@@ -261,17 +269,7 @@ public class SistemaReservas {
         System.out.println("Reserva excluída com sucesso!");
     }
 
-    private void mostrarReservas() {
-        System.out.println("Digite o iD: ");
-        int id = scanner.nextInt();
-        Cliente cliente = gerenciadorContas.obterClientePorId(id);
-        if(cliente.getId() != 0){
-            System.out.println(cliente.getNome());
-            gerenciadorReservas.visualizarReservasCliente(cliente);
-        }else{
-            System.out.println("Id inexistente.");
-        }
-    }
+
 }
 
 

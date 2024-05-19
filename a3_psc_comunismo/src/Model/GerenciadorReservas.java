@@ -2,10 +2,17 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class GerenciadorReservas {
+    private GerenciadorContas gerenciadorContas;
     private List<Reserva> reservas;
     private static int proximoId = 1;
+
+    private int gerarProximoId() {
+        return proximoId++;
+    }
+
 
     public GerenciadorReservas() {
         this.reservas = new ArrayList<>();
@@ -38,7 +45,17 @@ public class GerenciadorReservas {
         }
     }
 
-    private int gerarProximoId() {
-        return proximoId++;
+
+    public void mostrarReservas() {
+        System.out.println("Digite o iD: ");
+        Scanner scanner = new Scanner(System.in);
+        int id = scanner.nextInt();
+        Cliente cliente = gerenciadorContas.obterClientePorId(id);
+        if(cliente.getId() != 0){
+            System.out.println(cliente.getNome());
+            visualizarReservasCliente(cliente);
+        }else{
+            System.out.println("Id inexistente.");
+        }
     }
 }
