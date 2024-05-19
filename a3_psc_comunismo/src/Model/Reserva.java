@@ -3,34 +3,34 @@ package Model;
 public class Reserva {
     private static int proximoId = 1;
 
-    private int idReserva;
-    private Cliente cliente;
+    private int id;
+    private Pessoa pessoa;
     private String origem;
     private String destino;
     private String dataViagem;
 
-    public Reserva(Cliente cliente, String origem, String destino, String dataViagem) {
-        this.idReserva = proximoId++;
-        this.cliente = cliente;
+    public Reserva(Pessoa pessoa, String origem, String destino, String dataViagem) {
+        this.id = proximoId++;
+        this.pessoa = pessoa;
         this.origem = origem;
         this.destino = destino;
         this.dataViagem = dataViagem;
     }
 
-    public int getIdReserva() {
-        return idReserva;
+    public int getId() {
+        return id;
     }
 
     public void setId(int proximoId) {
-        this.idReserva = proximoId;
+        this.id = proximoId;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public Pessoa getCliente() {
+        return pessoa;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setCliente(Pessoa pessoa) {
+        this.pessoa = pessoa;
     }
 
     public String getOrigem() {
@@ -59,6 +59,6 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "\nId = " + idReserva + "\nOrigem: " + origem + "\nDestino: " + destino + "\nData de viagem: " + dataViagem;
+        return "\nId = " + id + "\nOrigem: " + origem + "\nDestino: " + destino + "\nData de viagem: " + dataViagem;
     }
 }

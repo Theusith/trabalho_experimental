@@ -47,18 +47,24 @@ public class SistemaReservas {
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
 
+
         // Verificar se as credenciais correspondem a alguma conta
-        Cliente clienteLogado = gerenciadorContas.autenticarCliente(email, senha);
-        if (clienteLogado != null) {
+
+
+        Pessoa pessoaLogada = gerenciadorContas.autenticarPessoa(email, senha);
+        if (pessoaLogada != null) {
             System.out.println("Login bem-sucedido!");
-            exibirMenuPrincipal(clienteLogado);
+            if (pessoaLogada instanceof Administrador) {
+                exibirMenuAdministrador((Administrador) pessoaLogada);
+            } else if (pessoaLogada instanceof Cliente) {
+                exibirMenuPrincipal((Cliente) pessoaLogada);
+            }
         } else {
             System.out.println("Email ou senha incorretos. Tente novamente.");
         }
     }
 
     private void criarConta() {
-        // Implementar lógica de criação de conta
         System.out.println("=== Criar Conta ===");
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
@@ -69,21 +75,15 @@ public class SistemaReservas {
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
 
-        //Gerar numero de Identifidação = Id
-        String id = "1";
-        int temp = Integer.parseInt(id);
-        temp++;
-        id = String.valueOf(temp);
-
-
         // Criar um novo cliente com os dados fornecidos
-        Cliente novoCliente = new Cliente(id,nome, cpf, email, senha);
+        Cliente novoCliente = new Cliente(gerenciadorContas.gerarProximoId(), nome, cpf, email, senha);
 
         // Adicionar o novo cliente ao gerenciador de contas
         gerenciadorContas.adicionarCliente(novoCliente);
 
-        System.out.println("Conta criada com sucesso!");
+        System.out.println("Conta criada com sucesso!\nO seu ID é: " + novoCliente.getId());
     }
+
     private void exibirMenuPrincipal(Cliente cliente) {
         boolean sair = false;
         while (!sair) {
@@ -92,7 +92,8 @@ public class SistemaReservas {
             System.out.println("2. Visualizar reservas");
             System.out.println("3. Editar reserva");
             System.out.println("4. Excluir reserva");
-            System.out.println("5. Logout");
+            System.out.println("5. Excluir conta");
+            System.out.println("6. Logout");
             System.out.print("Escolha uma opção: ");
             int opcao = scanner.nextInt();
             scanner.nextLine(); // Consumir a quebra de linha
@@ -105,12 +106,16 @@ public class SistemaReservas {
                     gerenciadorReservas.visualizarReservasCliente(cliente);
                     break;
                 case 3:
-                    editarReserva(cliente, gerenciadorReservas);
+                    editarReserva(cliente);
                     break;
                 case 4:
                     excluirReserva(cliente);
                     break;
                 case 5:
+                    excluirConta(cliente);
+                    sair = true; // Forçar logout após excluir conta
+                    break;
+                case 6:
                     sair = true;
                     break;
                 default:
@@ -119,8 +124,79 @@ public class SistemaReservas {
         }
     }
 
+    private void excluirConta(Cliente cliente) {
+        System.out.println("=== Excluir Conta ===");
+        System.out.print("Tem certeza que deseja excluir sua conta? (S/N): ");
+        String confirmacao = scanner.nextLine();
+        if (confirmacao.equalsIgnoreCase("S")) {
+            gerenciadorContas.removerCliente(cliente);
+            System.out.println("Conta excluída com sucesso!");
+        } else {
+            System.out.println("Operação cancelada.");
+        }
+    }
+
+    private void exibirMenuAdministrador(Administrador administrador) {
+        boolean sair = false;
+        while (!sair) {
+            System.out.println("\n=== Menu Administrador ===");
+            System.out.println("1. Alterar dados pessoais de um cliente por ID");
+            System.out.println("2. Exibir reservas de um cliente");
+            System.out.println("3. Logout");
+            System.out.print("Escolha uma opção: ");
+
+            int opcao = scanner.nextInt();
+
+            scanner.nextLine(); // Consumir a quebra de linha
+
+            switch (opcao) {
+                case 1:
+                    alterarDadosClientePorId();
+                    break;
+                case 2:
+                    mostrarReservas();
+                    break;
+                case 3:
+                    sair = true;
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
+    private void alterarDadosClientePorId() {
+        System.out.println("=== Alterar Dados de Cliente ===");
+        System.out.print("ID do cliente: ");
+        int idCliente = scanner.nextInt();
+        scanner.nextLine(); // Consumir a quebra de linha
+
+        Cliente clienteParaAlterar = gerenciadorContas.obterClientePorId(idCliente);
+        if (clienteParaAlterar == null) {
+            System.out.println("Cliente não encontrado.");
+            return;
+        }
+
+        System.out.println("Alterando dados de: " + clienteParaAlterar.getNome());
+        System.out.print("Novo nome: ");
+        String novoNome = scanner.nextLine();
+        System.out.print("Novo CPF: ");
+        String novoCpf = scanner.nextLine();
+        System.out.print("Novo email: ");
+        String novoEmail = scanner.nextLine();
+        System.out.print("Nova senha: ");
+        String novaSenha = scanner.nextLine();
+
+        clienteParaAlterar.setNome(novoNome);
+        clienteParaAlterar.setCpf(novoCpf);
+        clienteParaAlterar.setEmail(novoEmail);
+        clienteParaAlterar.setSenha(novaSenha);
+
+        System.out.println("Dados alterados com sucesso!");
+    }
+
     private void criarNovaReserva(Cliente cliente) {
-        System.out.println("=== Criar Nova Model.Reserva ===");
+        System.out.println("=== Criar Nova Reserva ===");
         System.out.print("Origem: ");
         String origem = scanner.nextLine();
         System.out.print("Destino: ");
@@ -128,26 +204,25 @@ public class SistemaReservas {
         System.out.print("Data de Viagem (DD/MM/AAAA): ");
         String dataViagem = scanner.nextLine();
 
-
         // Criar uma nova reserva com os detalhes fornecidos
         Reserva novaReserva = new Reserva(cliente, origem, destino, dataViagem);
 
         // Adicionar a nova reserva ao gerenciador de reservas
         gerenciadorReservas.adicionarReserva(novaReserva);
 
-        System.out.println("Model.Reserva criada com sucesso!");
+        System.out.println("Reserva criada com sucesso!");
     }
 
-    private void editarReserva(Cliente cliente, GerenciadorReservas gerenciadorReservas) {
-        System.out.println("=== Editar Model.Reserva ===");
-        System.out.print("ID da Model.Reserva: ");
+    private void editarReserva(Cliente cliente) {
+        System.out.println("=== Editar Reserva ===");
+        System.out.print("ID da Reserva: ");
         int idReserva = scanner.nextInt();
         scanner.nextLine(); // Consumir a quebra de linha
 
-        // Obter a reserva com o ID fornecido
+        // Obter a reserva com o ID fornecido a partir do gerenciador de reservas
         Reserva reservaParaEditar = gerenciadorReservas.obterReservaPorId(cliente, idReserva);
         if (reservaParaEditar == null) {
-            System.out.println("Model.Reserva não encontrada.");
+            System.out.println("Reserva não encontrada.");
             return;
         }
 
@@ -164,26 +239,40 @@ public class SistemaReservas {
         reservaParaEditar.setDestino(novoDestino);
         reservaParaEditar.setDataViagem(novaDataViagem);
 
-        System.out.println("Model.Reserva editada com sucesso!");
+        System.out.println("Reserva atualizada com sucesso!");
     }
 
-
     private void excluirReserva(Cliente cliente) {
-        System.out.println("=== Excluir Model.Reserva ===");
-        System.out.print("ID da Model.Reserva: ");
+        System.out.println("=== Excluir Reserva ===");
+        System.out.print("ID da Reserva: ");
         int idReserva = scanner.nextInt();
         scanner.nextLine(); // Consumir a quebra de linha
 
-        // Obter a reserva com o ID fornecido
+        // Obter a reserva com o ID fornecido a partir do gerenciador de reservas
         Reserva reservaParaExcluir = gerenciadorReservas.obterReservaPorId(cliente, idReserva);
         if (reservaParaExcluir == null) {
-            System.out.println("Model.Reserva não encontrada.");
+            System.out.println("Reserva não encontrada.");
             return;
         }
 
-        System.out.println("Model.Reserva excluída com sucesso!");
+        // Remover a reserva do gerenciador de reservas
+        gerenciadorReservas.removerReserva(reservaParaExcluir);
+
+        System.out.println("Reserva excluída com sucesso!");
     }
 
+    private void mostrarReservas() {
+        System.out.println("Digite o iD: ");
+        int id = scanner.nextInt();
+        Cliente cliente = gerenciadorContas.obterClientePorId(id);
+        if(cliente.getId() != 0){
+            System.out.println(cliente.getNome());
+            gerenciadorReservas.visualizarReservasCliente(cliente);
+        }else{
+            System.out.println("Id inexistente.");
+        }
+    }
 }
+
 
 
