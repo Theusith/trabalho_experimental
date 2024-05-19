@@ -1,16 +1,22 @@
 package Model;
 
 public class Cliente {
-    private String nome;
-    private String cpf;
-    private String email;
-    private String senha;
+    protected String iD;
+    protected String nome;
+    protected String cpf;
+    protected String email;
+    protected String senha;
 
-    public Cliente(String nome, String cpf, String email, String senha) {
+    public Cliente(String iD,String nome, String cpf, String email, String senha) {
+        this.iD = iD;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.senha = senha;
+    }
+
+    public String getiD() {
+        return iD;
     }
 
     public String getNome() {
@@ -44,4 +50,6 @@ public class Cliente {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+
 }

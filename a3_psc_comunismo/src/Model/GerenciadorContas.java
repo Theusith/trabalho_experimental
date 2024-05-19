@@ -9,7 +9,11 @@ public class GerenciadorContas {
 
     public GerenciadorContas() {
         this.clientes = new ArrayList<>();
-        adicionarAdministradorPadrao("adm", "adm");
+        String matricula = "1";
+        int temp = Integer.parseInt(matricula);
+        temp++;
+        matricula = String.valueOf(temp);
+        adicionarAdministradorPadrao(matricula,"1","adm", "adm");
 
     }
 
@@ -28,8 +32,8 @@ public class GerenciadorContas {
 
     // Método para adicionar um administrador pré-existente
 
-    private void adicionarAdministradorPadrao(String email, String senha) {
-        Cliente administrador = new Cliente("Administrador", "", email, senha);
+    private void adicionarAdministradorPadrao(String matricula,String id,String email, String senha) {
+        Cliente administrador = new Administrador(matricula, id, "Administrador", "", email, senha);
         clientes.add(administrador);
     }
 }

@@ -69,8 +69,15 @@ public class SistemaReservas {
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
 
+        //Gerar numero de Identifidação = Id
+        String id = "1";
+        int temp = Integer.parseInt(id);
+        temp++;
+        id = String.valueOf(temp);
+
+
         // Criar um novo cliente com os dados fornecidos
-        Cliente novoCliente = new Cliente(nome, cpf, email, senha);
+        Cliente novoCliente = new Cliente(id,nome, cpf, email, senha);
 
         // Adicionar o novo cliente ao gerenciador de contas
         gerenciadorContas.adicionarCliente(novoCliente);
