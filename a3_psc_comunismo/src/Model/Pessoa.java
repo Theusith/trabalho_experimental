@@ -51,5 +51,10 @@ public abstract class Pessoa {
         this.senha = senha;
     }
 
+    @Override
+    public String toString() {
+        return "Nome:" + nome + "\nId: " + iD;
+    }
+
 
 }

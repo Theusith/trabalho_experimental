@@ -15,8 +15,8 @@ public class GerenciadorContas {
         adicionarAdministradorPadrao("adm", "adm", "ADM001");
     }
 
-    public void adicionarCliente(Cliente cliente) {
-        clientes.add(cliente);
+    public void adicionarCliente(Cliente novoCliente) {
+        clientes.add(novoCliente);
     }
 
     public void adicionarAdministrador(Administrador administrador) {
@@ -24,8 +24,10 @@ public class GerenciadorContas {
     }
 
     public Cliente obterClientePorId(int id) {
+
         for (Cliente cliente : clientes) {
             if (cliente.getId() == id) {
+                System.out.println(cliente);
                 return cliente;
             }
         }

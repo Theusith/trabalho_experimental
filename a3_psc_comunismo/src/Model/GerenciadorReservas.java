@@ -44,18 +44,16 @@ public class GerenciadorReservas {
             }
         }
     }
-
-
     public void mostrarReservas() {
+        this.gerenciadorContas = new GerenciadorContas();
         System.out.println("Digite o iD: ");
         Scanner scanner = new Scanner(System.in);
         int id = scanner.nextInt();
-        Cliente cliente = gerenciadorContas.obterClientePorId(id);
-        if(cliente.getId() != 0){
+        //try{
+            Cliente cliente = gerenciadorContas.obterClientePorId(id);
             System.out.println(cliente.getNome());
             visualizarReservasCliente(cliente);
-        }else{
-            System.out.println("Id inexistente.");
-        }
+        //}catch (Exception e) {
+        //    System.out.println("Id não encontrado");}
     }
 }
