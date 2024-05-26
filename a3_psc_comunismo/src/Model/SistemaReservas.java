@@ -157,7 +157,9 @@ public class SistemaReservas {
                     alterarDadosClientePorId();
                     break;
                 case 2:
-                    gerenciadorReservas.mostrarReservas();
+                    int id1 = scanner.nextInt();
+                    Cliente cl = gerenciadorContas.obterClientePorId(id1);
+                    gerenciadorReservas.visualizarReservasCliente(cl);
                     break;
                 case 3:
                     System.out.println("Digite o ID:");
