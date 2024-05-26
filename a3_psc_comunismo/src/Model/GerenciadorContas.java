@@ -26,17 +26,13 @@ public class GerenciadorContas {
     public Cliente obterClientePorId(int id) {
 
         try{
-            System.out.println("Digite o Id do cliente:");
             for (Cliente cliente : clientes) {
                 if (cliente.getId() == id) {
                     System.out.println(cliente);
                     return cliente;
                 }
             }
-
-        }catch (Exception e) {
-            System.out.println("Cliente não encontrado");
-        }
+        }catch (Exception e) {}
         return null;
     }
 

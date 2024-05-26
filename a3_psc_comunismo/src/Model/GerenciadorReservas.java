@@ -41,19 +41,9 @@ public class GerenciadorReservas {
         for (Reserva reserva : reservas) {
             if (reserva.getCliente().equals(cliente)) {
                 System.out.println(reserva);
+            }else{
+                System.out.println("Não há reservas para esse cliente.");
             }
         }
     }
-//    public void mostrarReservas() {
-//        this.gerenciadorContas = new GerenciadorContas();
-//        System.out.println("Digite o iD: ");
-//        Scanner scanner = new Scanner(System.in);
-//        int id = scanner.nextInt();
-//        try{
-//            Cliente cliente = gerenciadorContas.obterClientePorId(id);
-//            System.out.println(cliente.getNome());
-//            visualizarReservasCliente(cliente);
-//        }catch (Exception e) {
-//            System.out.println("Id não encontrado");}
-//    }
 }
