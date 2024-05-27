@@ -22,17 +22,17 @@ public class SistemaReservas {
             System.out.println("2. Criar conta");
             System.out.println("3. Sair");
             System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
+            char opcao = scanner.next().charAt(0);
             scanner.nextLine(); // Consumir a quebra de linha
 
             switch (opcao) {
-                case 1:
+                case '1':
                     fazerLogin();
                     break;
-                case 2:
+                case '2':
                     criarConta();
                     break;
-                case 3:
+                case '3':
                     sair = true;
                     break;
                 default:
@@ -96,27 +96,27 @@ public class SistemaReservas {
             System.out.println("5. Excluir conta");
             System.out.println("6. Logout");
             System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
+            char opcao = scanner.next().charAt(0);
             scanner.nextLine(); // Consumir a quebra de linha
 
             switch (opcao) {
-                case 1:
+                case '1':
                     criarNovaReserva(cliente);
                     break;
-                case 2:
-                    gerenciadorReservas.visualizarReservasCliente(cliente);
+                case '2':
+                    cliente.getReservas();
                     break;
-                case 3:
+                case '3':
                     editarReserva(cliente);
                     break;
-                case 4:
+                case '4':
                     excluirReserva(cliente);
                     break;
-                case 5:
+                case '5':
                     excluirConta(cliente);
                     sair = true; // Forçar logout após excluir conta
                     break;
-                case 6:
+                case '6':
                     sair = true;
                     break;
                 default:
@@ -158,9 +158,13 @@ public class SistemaReservas {
                     break;
                 case 2:
                     System.out.println("Digite o Id do cliente:");
-                    int id1 = scanner.nextInt();
-                    Cliente cl = gerenciadorContas.obterClientePorId(id1);
-                    gerenciadorReservas.visualizarReservasCliente(cl);
+                    int idConsultado = scanner.nextInt();
+                    if(gerenciadorContas.obterClientePorId(idConsultado) != null){
+                        Cliente cl = gerenciadorContas.obterClientePorId(idConsultado);
+                        cl.getReservas();
+                    }else{
+                        System.out.println("Cliente não encontrado!");
+                    }
                     break;
                 case 3:
                     System.out.println("Digite o ID:");
@@ -219,7 +223,7 @@ public class SistemaReservas {
         Reserva novaReserva = new Reserva(cliente, origem, destino, dataViagem);
 
         // Adicionar a nova reserva ao gerenciador de reservas
-        gerenciadorReservas.adicionarReserva(novaReserva);
+        cliente.adicionarReserva(novaReserva);
 
         System.out.println("Reserva criada com sucesso!");
     }
@@ -267,7 +271,7 @@ public class SistemaReservas {
         }
 
         // Remover a reserva do gerenciador de reservas
-        gerenciadorReservas.removerReserva(reservaParaExcluir);
+        cliente.removerReserva(reservaParaExcluir);
 
         System.out.println("Reserva excluída com sucesso!");
     }

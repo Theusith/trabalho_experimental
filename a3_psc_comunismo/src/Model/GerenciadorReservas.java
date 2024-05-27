@@ -18,15 +18,6 @@ public class GerenciadorReservas {
         this.reservas = new ArrayList<>();
     }
 
-    public void adicionarReserva(Reserva reserva) {
-        reserva.setId(gerarProximoId());
-        reservas.add(reserva);
-    }
-
-    public void removerReserva(Reserva reserva) {
-        reservas.remove(reserva);
-    }
-
     public Reserva obterReservaPorId(Cliente cliente, int id) {
         for (Reserva reserva : reservas) {
             if (reserva.getId() == id && reserva.getCliente().equals(cliente)) {
@@ -37,13 +28,16 @@ public class GerenciadorReservas {
     }
 
     public void visualizarReservasCliente(Cliente cliente) {
-        //System.out.println("=== Suas Reservas ===");
-        for (Reserva reserva : reservas) {
+        if(!reservas.isEmpty()) {
+            for (Reserva reserva : reservas) {
             if (reserva.getCliente().equals(cliente)) {
+                System.out.println(cliente);
                 System.out.println(reserva);
-            }else{
-                System.out.println("Não há reservas para esse cliente.");
             }
         }
+        }else{
+            System.out.println("Não há reservas para esse cliente.");
+        }
     }
+
 }

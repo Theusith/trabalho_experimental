@@ -15,25 +15,28 @@ public class GerenciadorContas {
         adicionarAdministradorPadrao("adm", "adm", "ADM001");
     }
 
+    // Atualiza o Id sempre que criar uma nova conta
+    public int gerarProximoId() {
+        return proximoId++;
+    }
+
+    // Método para adicionar um administrador pré-existente
+    private void adicionarAdministradorPadrao(String email, String senha, String matricula) {
+        Administrador administrador = new Administrador(proximoId++, "Administrador", "", email, senha, matricula);
+        administradores.add(administrador);
+    }
+
     public void adicionarCliente(Cliente novoCliente) {
         clientes.add(novoCliente);
     }
 
-    public void adicionarAdministrador(Administrador administrador) {
-        administradores.add(administrador);
-    }
-
     public Cliente obterClientePorId(int id) {
-
-        try{
-            for (Cliente cliente : clientes) {
-                if (cliente.getId() == id) {
-                    System.out.println(cliente);
-                    return cliente;
-                }
+        for (Cliente cliente : clientes) {
+            if (cliente.getId() == id) {
+                System.out.println(cliente);
+                return cliente;
             }
-        }catch (Exception e) {}
-        return null;
+        } return null;
     }
 
     public void removerCliente(Cliente cliente) {
@@ -54,19 +57,8 @@ public class GerenciadorContas {
         return null; // Pessoa não encontrada ou senha incorreta
     }
 
-    // Método para adicionar um administrador pré-existente
-    private void adicionarAdministradorPadrao(String email, String senha, String matricula) {
-        Administrador administrador = new Administrador(proximoId++, "Administrador", "", email, senha, matricula);
-        administradores.add(administrador);
-    }
-
-
     public void removerCliente(int id) {
         clientes.removeIf(cliente -> cliente.getId() == id);
         System.out.println("Cliente removido com sucesso!");
-    }
-
-    public int gerarProximoId() {
-        return proximoId++;
     }
 }

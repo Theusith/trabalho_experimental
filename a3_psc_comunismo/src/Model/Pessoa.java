@@ -53,7 +53,7 @@ public abstract class Pessoa {
 
     @Override
     public String toString() {
-        return "Nome:" + nome + "\nId: " + iD;
+        return "Nome: " + nome + "\nId: " + iD;
     }
 
 
