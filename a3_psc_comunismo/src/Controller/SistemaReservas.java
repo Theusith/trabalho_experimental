@@ -1,4 +1,9 @@
-package Model;
+package Controller;
+
+import Model.Administrador;
+import Model.Cliente;
+import Model.Pessoa;
+import Model.Reserva;
 
 import java.util.Scanner;
 
@@ -211,21 +216,38 @@ public class SistemaReservas {
     }
 
     private void criarNovaReserva(Cliente cliente) {
-        System.out.println("=== Criar Nova Reserva ===");
-        System.out.print("Origem: ");
-        String origem = scanner.nextLine();
-        System.out.print("Destino: ");
-        String destino = scanner.nextLine();
-        System.out.print("Data de Viagem (DD/MM/AAAA): ");
-        String dataViagem = scanner.nextLine();
 
-        // Criar uma nova reserva com os detalhes fornecidos
-        Reserva novaReserva = new Reserva(cliente, origem, destino, dataViagem);
 
-        // Adicionar a nova reserva ao gerenciador de reservas
-        cliente.adicionarReserva(novaReserva);
+        boolean sair = false;
+        while (!sair) {
 
-        System.out.println("Reserva criada com sucesso!");
+            System.out.println("=== Criar Nova Reserva ===");
+            System.out.print("Origem: ");
+            String origem = scanner.nextLine();
+            System.out.print("Destino: ");
+            String destino = scanner.nextLine();
+            // Corrigido: comparando valores de strings com .equals()
+            if (!origem.equalsIgnoreCase(destino)) {
+                System.out.print("Data de Viagem (DD/MM/AAAA): ");
+                String dataViagem = scanner.nextLine();
+
+                // Criar uma nova reserva com os detalhes fornecidos
+                Reserva novaReserva = new Reserva(cliente, origem, destino, dataViagem);
+
+                // Adicionar a nova reserva ao gerenciador de reservas
+                cliente.adicionarReserva(novaReserva);
+
+                System.out.println("Reserva criada com sucesso!");
+            } else {
+                System.out.println("Destino informado não pode ser igual a Origem, tente novamente.");
+            }
+
+            System.out.println("Deseja fazer mais alguma reserva? (S/N): ");
+            String confirmacao = scanner.nextLine();
+            if (confirmacao.equalsIgnoreCase("S")) {
+                sair = true;
+            }
+        }
     }
 
     private void editarReserva(Cliente cliente) {
@@ -275,7 +297,6 @@ public class SistemaReservas {
 
         System.out.println("Reserva excluída com sucesso!");
     }
-
 
 }
 

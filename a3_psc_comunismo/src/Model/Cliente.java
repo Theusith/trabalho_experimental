@@ -10,9 +10,14 @@ public class Cliente extends Pessoa{
     }
 
     public void getReservas(){
-        for(Reserva r : reservas){
-            System.out.println(r);
+        if(!reservas.isEmpty()){
+            for(Reserva r : reservas){
+                System.out.println(r);
+            }
+        }else{
+            System.out.println("Nenhum reserva encontrado");
         }
+
     }
     public void adicionarReserva(Reserva reserva) {
         reservas.add(reserva);

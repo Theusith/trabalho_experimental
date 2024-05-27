@@ -1,11 +1,12 @@
-package Model;
+package Controller;
+
+import Model.Cliente;
+import Model.Reserva;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class GerenciadorReservas {
-    private GerenciadorContas gerenciadorContas;
     private List<Reserva> reservas;
     private static int proximoId = 1;
 

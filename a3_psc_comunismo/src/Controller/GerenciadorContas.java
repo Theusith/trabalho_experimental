@@ -1,4 +1,8 @@
-package Model;
+package Controller;
+
+import Model.Administrador;
+import Model.Cliente;
+import Model.Pessoa;
 
 import java.util.ArrayList;
 import java.util.List;
