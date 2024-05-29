@@ -218,8 +218,8 @@ public class SistemaReservas {
     private void criarNovaReserva(Cliente cliente) {
 
 
-        boolean sair = false;
-        while (!sair) {
+        boolean sair = true;
+        while (sair) {
 
             System.out.println("=== Criar Nova Reserva ===");
             System.out.print("Origem: ");
@@ -245,7 +245,7 @@ public class SistemaReservas {
             System.out.println("Deseja fazer mais alguma reserva? (S/N): ");
             String confirmacao = scanner.nextLine();
             if (confirmacao.equalsIgnoreCase("S")) {
-                sair = true;
+                sair = false;
             }
         }
     }
